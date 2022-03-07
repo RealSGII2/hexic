@@ -19,7 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-colors = ["unused","dark","red","green","blue","yellow","ice"];
+colors = ["unused","dark","red","green","blue","yellow","orange","purple"];
 primes = [1,11,13,17,19]; //for special types of blocks
 
 matrix_w = 8
@@ -44,16 +44,21 @@ function start_game(){
 		var remblocks = fall_blocks();
 	} while(remblocks.length > 0);
 
+	var t = 1;
 
-	hexmatrix[8][6] *= primes[2];
-	hexmatrix[8][3] *= primes[2];
-	hexmatrix[0][1] *= primes[2];
-	hexmatrix[0][4] *= primes[2];
-	hexmatrix[4][0] *= primes[2];
-	hexmatrix[4][7] *= primes[2];
-	hexmatrix[3][3] *= primes[2];
-	hexmatrix[7][1] *= primes[2];
+	hexmatrix[8][6] *= t;
+	hexmatrix[8][3] *= t;
+	hexmatrix[0][1] *= t;
+	hexmatrix[0][4] *= t;
+	hexmatrix[4][0] *= t;
+	hexmatrix[4][7] *= t;
+	hexmatrix[3][3] *= t;
+	hexmatrix[7][1] *= t;
 
+
+	// hexmatrix[7][1] = 11;
+	// hexmatrix[8][1] = 11;
+	// hexmatrix[7][2] = 11;
 }
 
 function cp(obj){ // deep copy
