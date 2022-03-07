@@ -31,6 +31,8 @@ hex_h = 50;
 hex_ovlp = 1.6*(hex_w-hex_h);
 rotate_ccw = false;
 
+spawnBombs = true;
+
 function start_game(){
 	for(i=0;i<matrix_h;i++){
 		hexmatrix[i]=[];
@@ -55,6 +57,8 @@ function start_game(){
 	hexmatrix[3][3] *= t;
 	hexmatrix[7][1] *= t;
 
+	spawnBombs = false;
+
 
 	// hexmatrix[7][1] = 11;
 	// hexmatrix[8][1] = 11;
@@ -67,6 +71,10 @@ function cp(obj){ // deep copy
 
 function create_random_block(){
 	var blocknum = Math.round(Math.random()*(colors.length-2)+1);
+
+	if (spawnBombs && Math.floor(Math.random() * 4) == 1)
+		blocknum = -blocknum;
+
 	//console.log("creating "+colors[blocknum]+" block");
 	return blocknum;
 }
@@ -510,6 +518,8 @@ function draw_block(block, isnew){
 		styles.push("background-image: url('sp_"+type+".png')");
 	} else if(type == 0){
 		styles.push("background-image: url('hexb_"+colors[hexmatrix[block.i][block.j]]+".png')");
+	} else if(type == -1){
+		styles.push("background-image: url('bomb_"+colors[hexmatrix[block.i][block.j]]+".png')");
 	} else {
 		styles.push("background: none");
 	}
