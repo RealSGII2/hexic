@@ -223,6 +223,22 @@ function fall_blocks() {
 			}
 		}
 	}
+
+	setTimeout(() => {
+		if (!will_keep_falling()) {
+			console.log("fall_blocks debounce")
+			document.body.classList.remove('novis');
+			debounce = false;
+		} else {
+			console.log("fall_blocks debounce failed")
+
+			setTimeout(() => {
+				document.body.classList.remove('novis');
+				debounce = false;
+			}, 250);
+		}
+	}, 600);
+
 	return blocks;
 }
 
@@ -323,24 +339,24 @@ function detect_circ_combs(matrix) {
 				(Math.abs(matrix[blocks[0].i][blocks[0].j]) ==
 					Math.abs(matrix[blocks[1].i][blocks[1].j]) &&
 					Math.abs(matrix[blocks[0].i][blocks[0].j]) ==
-						Math.abs(matrix[blocks[2].i][blocks[2].j]) &&
+					Math.abs(matrix[blocks[2].i][blocks[2].j]) &&
 					Math.abs(matrix[blocks[0].i][blocks[0].j]) ==
-						Math.abs(matrix[blocks[3].i][blocks[3].j]) &&
+					Math.abs(matrix[blocks[3].i][blocks[3].j]) &&
 					Math.abs(matrix[blocks[0].i][blocks[0].j]) ==
-						Math.abs(matrix[blocks[4].i][blocks[4].j]) &&
+					Math.abs(matrix[blocks[4].i][blocks[4].j]) &&
 					Math.abs(matrix[blocks[0].i][blocks[0].j]) ==
-						Math.abs(matrix[blocks[5].i][blocks[5].j])) || // special blocks
+					Math.abs(matrix[blocks[5].i][blocks[5].j])) || // special blocks
 				(block_type({ i: blocks[0].i, j: blocks[0].j }) > 0 &&
 					block_type({ i: blocks[0].i, j: blocks[0].j }) ==
-						block_type({ i: blocks[1].i, j: blocks[1].j }) &&
+					block_type({ i: blocks[1].i, j: blocks[1].j }) &&
 					block_type({ i: blocks[0].i, j: blocks[0].j }) ==
-						block_type({ i: blocks[2].i, j: blocks[2].j }) &&
+					block_type({ i: blocks[2].i, j: blocks[2].j }) &&
 					block_type({ i: blocks[0].i, j: blocks[0].j }) ==
-						block_type({ i: blocks[3].i, j: blocks[3].j }) &&
+					block_type({ i: blocks[3].i, j: blocks[3].j }) &&
 					block_type({ i: blocks[0].i, j: blocks[0].j }) ==
-						block_type({ i: blocks[4].i, j: blocks[4].j }) &&
+					block_type({ i: blocks[4].i, j: blocks[4].j }) &&
 					block_type({ i: blocks[0].i, j: blocks[0].j }) ==
-						block_type({ i: blocks[5].i, j: blocks[5].j }))
+					block_type({ i: blocks[5].i, j: blocks[5].j }))
 			) {
 				for (var b = 0; b < blocks.length; b++)
 					matrix[blocks[b].i][blocks[b].j] = -Math.abs(
@@ -391,9 +407,9 @@ function detect_tri_combs(matrix) {
 						Math.abs(matrix[i][j]) == Math.abs(matrix[i][j + 1])) || //normal blocks
 					(block_type({ i: i, j: j }) >= 1 &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j }) &&
+						block_type({ i: i + 1, j: j }) &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i, j: j + 1 })) // special blocks
+						block_type({ i: i, j: j + 1 })) // special blocks
 				) {
 					matrix[i][j] = -Math.abs(matrix[i][j]);
 					matrix[i + 1][j] = -Math.abs(matrix[i + 1][j]);
@@ -408,9 +424,9 @@ function detect_tri_combs(matrix) {
 						Math.abs(matrix[i][j]) == Math.abs(matrix[i][j - 1])) || // normal blocks
 					(block_type({ i: i, j: j }) >= 1 &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j }) &&
+						block_type({ i: i + 1, j: j }) &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i, j: j - 1 })) // special blocks
+						block_type({ i: i, j: j - 1 })) // special blocks
 				) {
 					matrix[i][j] = -Math.abs(matrix[i][j]);
 					matrix[i + 1][j] = -Math.abs(matrix[i + 1][j]);
@@ -423,12 +439,12 @@ function detect_tri_combs(matrix) {
 					(j < matrix_w &&
 						Math.abs(matrix[i][j]) == Math.abs(matrix[i + 1][j]) &&
 						Math.abs(matrix[i][j]) ==
-							Math.abs(matrix[i + 1][j + 1])) || // normal blocks
+						Math.abs(matrix[i + 1][j + 1])) || // normal blocks
 					(block_type({ i: i, j: j }) >= 1 &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j }) &&
+						block_type({ i: i + 1, j: j }) &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j + 1 })) // special blocks
+						block_type({ i: i + 1, j: j + 1 })) // special blocks
 				) {
 					matrix[i][j] = -Math.abs(matrix[i][j]);
 					matrix[i + 1][j] = -Math.abs(matrix[i + 1][j]);
@@ -441,12 +457,12 @@ function detect_tri_combs(matrix) {
 					(j > 0 &&
 						Math.abs(matrix[i][j]) == Math.abs(matrix[i + 1][j]) &&
 						Math.abs(matrix[i][j]) ==
-							Math.abs(matrix[i + 1][j - 1])) || // normal blocks
+						Math.abs(matrix[i + 1][j - 1])) || // normal blocks
 					(block_type({ i: i, j: j }) >= 1 &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j }) &&
+						block_type({ i: i + 1, j: j }) &&
 						block_type({ i: i, j: j }) ==
-							block_type({ i: i + 1, j: j - 1 })) // special blocks
+						block_type({ i: i + 1, j: j - 1 })) // special blocks
 				) {
 					matrix[i][j] = -Math.abs(matrix[i][j]);
 					matrix[i + 1][j] = -Math.abs(matrix[i + 1][j]);
@@ -505,7 +521,7 @@ function get_nearest(mouse_x, mouse_y) {
 		d = parseInt(
 			Math.sqrt(
 				Math.pow(center[0] - window.event.clientY, 2) +
-					Math.pow(center[1] - window.event.clientX, 2)
+				Math.pow(center[1] - window.event.clientX, 2)
 			)
 		);
 		dists.push(d);
@@ -629,8 +645,8 @@ function draw_block(block, isnew) {
 	if (bombmatrix[block.i][block.j] > -999) {
 		styles.push(
 			"background-image: url('bomb_" +
-				colors[hexmatrix[block.i][block.j]] +
-				".png')"
+			colors[hexmatrix[block.i][block.j]] +
+			".png')"
 		);
 	} else if (type >= 1) {
 		//styles.push("background: orange");
@@ -638,8 +654,8 @@ function draw_block(block, isnew) {
 	} else if (type == 0) {
 		styles.push(
 			"background-image: url('hexb_" +
-				colors[hexmatrix[block.i][block.j]] +
-				".png')"
+			colors[hexmatrix[block.i][block.j]] +
+			".png')"
 		);
 	} else {
 		styles.push('background: none');
@@ -762,6 +778,7 @@ function anim_rot_blocks(blocks, turn) {
 					var rotated = rotate_blocks(blocks, turn);
 					anim_rot_blocks(rotated, turn + 1, keep_falling);
 				} else if (!keep_falling() && !(turn < 3)) {
+					console.log("anim_rot_blocks debounce")
 					document.body.classList.remove('novis');
 					debounce = false;
 				}
@@ -784,7 +801,7 @@ function anim_fade_blocks(what_next) {
 				}
 				try {
 					bombmatrix[i][j] = -999;
-				} catch {}
+				} catch { }
 			}, 475);
 
 			var blkdom = document.getElementById('hex_' + i + '_' + j);
@@ -858,6 +875,7 @@ function anim_blocks(blocks) {
 				if (!keep_falling()) {
 					document.body.classList.remove('novis');
 					debounce = false;
+					console.log("anim_blocks debounce")
 				}
 			};
 			tw.onMotionFinished = omf;
@@ -878,7 +896,15 @@ function keep_falling() {
 
 	document.body.classList.remove('novis');
 	debounce = false;
+	console.log("keep_falling debounce")
 	return false;
+}
+
+function will_keep_falling() {
+	var res = detect_combs(hexmatrix);
+	hexmatrix = res.matrix;
+
+	return res.comb_circ + res.comb_tri > 0;
 }
 
 function rotate_and_update(evt) {
@@ -889,8 +915,8 @@ function rotate_and_update(evt) {
 		block_type(nearest_blocks[0]) == 0
 			? 1
 			: can_rotate_normally(nearest_blocks[0])
-			? 3
-			: 1;
+				? 3
+				: 1;
 
 	rotated = rotate_blocks(nearest_blocks, turn);
 	anim_rot_blocks(rotated, turn, keep_falling);
