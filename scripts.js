@@ -49,6 +49,8 @@ bombChance = 32;
 
 flowersMade = 0;
 
+debounce = false;
+
 function start_game() {
 	document.getElementById('winscreen').style.display = null;
 	document.getElementById('losescreen').style.display = null;
@@ -83,8 +85,8 @@ function start_game() {
 
 	points = 0;
 	moves = 0;
-	document.getElementById("points").innerHTML = 0;
-	document.getElementById("moves").innerHTML = 0;
+	document.getElementById('points').innerHTML = 0;
+	document.getElementById('moves').innerHTML = 0;
 
 	spawnBombs = false;
 	bombChance = 32;
@@ -211,7 +213,7 @@ function fall_blocks() {
 						Math.floor(Math.random() * bombChance) == 0 &&
 						spawnBombs == true
 					) {
-						bombmatrix[i][j] = Math.floor(Math.random() * 35 + 20);
+						bombmatrix[i][j] = 9;
 					} else bombmatrix[i][j] = -999;
 
 					blocks.push({ i: -1, j: j, new_i: i });
@@ -345,20 +347,20 @@ function detect_circ_combs(matrix) {
 						matrix[blocks[b].i][blocks[b].j]
 					);
 
-					if (block_type({ i: 0, j: 5 }) + 1 == 3) {
-						document.getElementById("winscreen").style.display = "flex";
-						return;
-					}
+				if (block_type({ i: 0, j: 5 }) + 1 == 3) {
+					document.getElementById('winscreen').style.display = 'flex';
+					return;
+				}
 
-					if (flowersMade + 1 == 3) {
-						colors.push("orange");
-						bombChance = 27;
-					}
-				
-					if (flowersMade + 1 == 6) {
-						colors.push("dark");
-						bombChance = 20;
-					}
+				if (flowersMade + 1 == 3) {
+					colors.push('orange');
+					bombChance = 27;
+				}
+
+				if (flowersMade + 1 == 6) {
+					colors.push('dark');
+					bombChance = 20;
+				}
 
 				matrix[i][j] =
 					matrix[i][j] *
@@ -468,16 +470,6 @@ function detect_combs(matrix) {
 
 	if (res_tri.combs || res_circ.combs) {
 		console.log('hii');
-		bombmatrix = bombmatrix.map((a) =>
-			a.map((i) => {
-				if (i < 1 && i > -999) {
-					return (document.getElementById(
-						'losescreen'
-					).style.display = 'flex');
-				} else i -= res_tri.combs + res_circ.combs;
-				return i;
-			})
-		);
 
 		points += res_tri.combs + res_circ.combs * 10;
 		document.getElementById('points').innerHTML = points;
@@ -769,6 +761,9 @@ function anim_rot_blocks(blocks, turn) {
 				if (!keep_falling() && turn < 3 && blocks.length == 3) {
 					var rotated = rotate_blocks(blocks, turn);
 					anim_rot_blocks(rotated, turn + 1, keep_falling);
+				} else if (!keep_falling() && !(turn < 3)) {
+					document.body.classList.remove('novis');
+					debounce = false;
 				}
 			};
 			tw.onMotionFinished = omf;
@@ -860,7 +855,10 @@ function anim_blocks(blocks) {
 		if (omf == null) {
 			omf = function () {
 				redraw_matrix();
-				keep_falling();
+				if (!keep_falling()) {
+					document.body.classList.remove('novis');
+					debounce = false;
+				}
 			};
 			tw.onMotionFinished = omf;
 		}
@@ -877,6 +875,9 @@ function keep_falling() {
 		});
 		return true;
 	}
+
+	document.body.classList.remove('novis');
+	debounce = false;
 	return false;
 }
 
@@ -903,10 +904,26 @@ window.onload = function () {
 	redraw_matrix();
 
 	blockarea.onmousemove = function () {
+		if (debounce) return;
 		highlight_hex(get_nearest(window.event.clientX, window.event.clientY));
 	};
 
 	blockarea.onclick = function () {
+		if (debounce) return;
+		document.body.classList.add('novis');
+		debounce = true;
+
+		bombmatrix = bombmatrix.map((a) =>
+			a.map((i) => {
+				if (i < 1 && i > -999) {
+					return (document.getElementById(
+						'losescreen'
+					).style.display = 'flex');
+				} else i--;
+				return i;
+			})
+		);
+
 		rotate_and_update(window.event);
 		moves++;
 		document.getElementById('moves').innerHTML = moves;

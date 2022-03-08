@@ -20,6 +20,10 @@
 	margin-right: 4px;
 }
 
+.novis .hexblock_hl, .novis .rot_ind_cw, .novis .rot_ind_ccw {
+	opacity: 0;
+}
+
 .hexblock_hl, .rot_ind_cw, .rot_ind_ccw {
 	display: none;
 	width: 60px;
@@ -33,6 +37,7 @@
 	position: absolute;
 	top: 500px;
 	left: 500px;
+	z-index: 999;
 }
 
 .rot_ind_ccw { background-image: url("rot_ccw.png"); }
