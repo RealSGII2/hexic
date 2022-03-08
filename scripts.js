@@ -208,7 +208,7 @@ function fall_blocks() {
 					hexmatrix[i][j] = create_random_block() * primes[newtype];
 
 					if (
-						Math.floor(Math.random() * 32) == 0 &&
+						Math.floor(Math.random() * bombChance) == 0 &&
 						spawnBombs == true
 					) {
 						bombmatrix[i][j] = Math.floor(Math.random() * 35 + 20);
