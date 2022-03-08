@@ -1,55 +1,72 @@
 <html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 
-<head>
+		<link rel="preload" href="bomb_blue.png" />
+		<link rel="preload" href="bomb_dark.png" />
+		<link rel="preload" href="bomb_green.png" />
+		<link rel="preload" href="bomb_orange.png" />
+		<link rel="preload" href="bomb_purple.png" />
+		<link rel="preload" href="bomb_red.png" />
+		<link rel="preload" href="bomb_yellow.png" />
 
-<link rel="stylesheet" type="text/css" href="styles.css" />
+		<link rel="preload" href="hex.png" />
+		<link rel="preload" href="hexb_black.png" />
+		<link rel="preload" href="hexb_blue.png" />
+		<link rel="preload" href="hexb_border.png" />
+		<link rel="preload" href="hexb_dark.png" />
+		<link rel="preload" href="hexb_green.png" />
+		<link rel="preload" href="hexb_orange.png" />
+		<link rel="preload" href="hexb_purple.png" />
+		<link rel="preload" href="hexb_red.png" />
+		<link rel="preload" href="hexb_yellow.png" />
+		<link rel="preload" href="hexb.png" />
 
-<link rel="preload" href="bomb_blue.png">
-<link rel="preload" href="bomb_dark.png">
-<link rel="preload" href="bomb_green.png">
-<link rel="preload" href="bomb_orange.png">
-<link rel="preload" href="bomb_purple.png">
-<link rel="preload" href="bomb_red.png">
-<link rel="preload" href="bomb_yellow.png">
+		<link rel="preload" href="rot_ccw.png" />
+		<link rel="preload" href="rot_cw.png" />
 
-<link rel="preload" href="hex.png">
-<link rel="preload" href="hexb_black.png">
-<link rel="preload" href="hexb_blue.png">
-<link rel="preload" href="hexb_border.png">
-<link rel="preload" href="hexb_dark.png">
-<link rel="preload" href="hexb_green.png">
-<link rel="preload" href="hexb_orange.png">
-<link rel="preload" href="hexb_purple.png">
-<link rel="preload" href="hexb_red.png">
-<link rel="preload" href="hexb_yellow.png">
-<link rel="preload" href="hexb.png">
+		<link rel="preload" href="sp_1.png" />
+		<link rel="preload" href="sp_2.png" />
 
-<link rel="preload" href="rot_ccw.png">
-<link rel="preload" href="rot_cw.png">
+		<script type="text/javascript" src="jsplus.js"></script>
+		<script type="text/javascript" src="scripts.js"></script>
+	</head>
 
-<link rel="preload" href="sp_1.png">
-<link rel="preload" href="sp_2.png">
+	<body>
+		<div id="blockarea"></div>
 
-<script type="text/javascript" src="jsplus.js"></script>
-<script type="text/javascript" src="scripts.js"></script>
+		<div class="row" style="margin-bottom: 1rem">
+			<div class="primary stat">
+				<span>Points:</span>
+				<span id="points">0</span>
+			</div>
+			<div class="stat">
+				<span>Moves:</span>
+				<span id="moves">0</span>
+			</div>
+		</div>
 
-</head>
+		<div class="row">
+			<a href="#">How to play</a>
+		</div>
 
-<body>
+		<div id="winscreen">
+			<h1>You won!</h1>
+			<button class="replayB">Replay</button>
+		</div>
 
-<div id="blockarea">
-</div>
+		<div id="losescreen">
+			<h1>Game Over</h1>
+			<p>A bomb exploded.</p>
+			<button class="replayB">Replay</button>
+		</div>
 
-<div id="winscreen">
-    <h1>You won!</h1>
-    <button class="replayB">Replay</button>
-</div>
-
-<div id="losescreen">
-    <h1>Game Over</h1>
-    <p>A bomb exploded.</p>
-    <button class="replayB">Replay</button>
-</div>
-
-</body>
+		<script>
+			document
+				.querySelectorAll('.replayB')
+				.forEach((e) =>
+					e.addEventListener('click', () => window.location.reload())
+				);
+		</script>
+	</body>
 </html>
