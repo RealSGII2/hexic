@@ -21,12 +21,12 @@
 
 colors = [
 	'unused',
-	'dark',
+	// 'dark',
 	'red',
 	'green',
 	'blue',
 	'yellow',
-	'orange',
+	// 'orange',
 	'purple',
 ];
 primes = [1, 11, 13, 17, 19]; //for special types of blocks
@@ -45,6 +45,9 @@ hex_ovlp = 1.6 * (hex_w - hex_h);
 rotate_ccw = false;
 
 spawnBombs = false;
+bombChance = 32;
+
+flowersMade = 0;
 
 function start_game() {
 	document.getElementById('winscreen').style.display = null;
@@ -84,6 +87,9 @@ function start_game() {
 	document.getElementById("moves").innerHTML = 0;
 
 	spawnBombs = false;
+	bombChance = 32;
+
+	flowersMade = 0;
 
 	// hexmatrix[7][1] = 11;
 	// hexmatrix[8][1] = 11;
@@ -344,6 +350,16 @@ function detect_circ_combs(matrix) {
 						return;
 					}
 
+					if (flowersMade + 1 == 3) {
+						colors.push("orange");
+						bombChance = 27;
+					}
+				
+					if (flowersMade + 1 == 6) {
+						colors.push("dark");
+						bombChance = 20;
+					}
+
 				matrix[i][j] =
 					matrix[i][j] *
 					primes[block_type({ i: blocks[0].i, j: blocks[0].j }) + 1]; // upgrading block type
@@ -447,6 +463,8 @@ function detect_combs(matrix) {
 
 	var res_circ = detect_circ_combs(matrix);
 	var res_tri = detect_tri_combs(res_circ.matrix); //cumulative
+
+	flowersMade += res_circ.combs;
 
 	if (res_tri.combs || res_circ.combs) {
 		console.log('hii');
